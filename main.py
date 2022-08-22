@@ -1,10 +1,9 @@
 import discord
-import asyncio
 from discord.ext import commands
 
-
-bot = commands.Bot(command_prefix="o.", self_bot=True)
-token = "OTE4NTAyOTY5NjU2MzQ0NjM3.GBC0Gv.fpQbasS1hATDByPIMQNKcC5bT00xg4oqgDN-jA"
+prefix = "o."
+bot = commands.Bot(command_prefix=prefix, self_bot=True, case_insensitive=True, help_command=None)
+token = "token here"
 userids = []
 global start_sawtar
 start_sawtar = False
@@ -12,9 +11,9 @@ start_sawtar = False
     
 @bot.event
 async def on_ready():
-    print(f"Sawtar ready: Connected as {bot.user.name}#{bot.user.discriminator}")
+    print(f"Linker ready: Connected as {bot.user.name}#{bot.user.discriminator}")
 
-@bot.command(name="add")
+@bot.command(name="add", description="Adds users to the DM Session")
 async def _add(ctx, user: discord.User = None):
     await ctx.message.delete()
     if user is None:
@@ -22,10 +21,10 @@ async def _add(ctx, user: discord.User = None):
     id = user.id
     userids.append(id)
     user = await bot.fetch_user(id)
-    msg = f"Added {user.name}#{user.discriminator} to the sawtar session"
+    msg = f"Added {user.name}#{user.discriminator} to the DM session"
     await ctx.send(msg, delete_after=60)
 
-@bot.command(name="remove")
+@bot.command(name="remove", description="Removes users from the DM Session")
 async def _remove(ctx, user: discord.User = None):
     await ctx.message.delete()
     if user is None:
@@ -34,31 +33,39 @@ async def _remove(ctx, user: discord.User = None):
     if id in userids:
         userids.remove(id)
     user = await bot.fetch_user(id)
-    msg = f"Removed {user.name}#{user.discriminator} from the sawtar session"
+    msg = f"Removed {user.name}#{user.discriminator} from the DM session"
     await ctx.send(msg, delete_after=60)
 
+@bot.command(name="help", description="Displays the help command")
+async def _help(ctx):
+    await ctx.message.delete()
+    msg = "```\nCommands listed here.\n"
+    for command in bot.walk_commands():
+        msg += f"{command.name} :   {command.description}\n"
+    msg += "```"
+    await ctx.send(msg, delete_after=60)
     
 
-@bot.command(name="list")
+@bot.command(name="list", description="Displays the users in the DM Session")
 async def _list(ctx):
     await ctx.message.delete()
     em = discord.Embed()
-    msg = f"```\n{bot.user.name}'s Sawtar list:"
+    msg = f"```\n{bot.user.name}'s DM list:"
     for i in userids:
         user = await bot.fetch_user(i)
         msg += f"{user.name}#{user.discriminator}\n"
     msg += "```"
     await ctx.send(msg, delete_after=60)
 
-@bot.command(name="start")
+@bot.command(name="start", description="Starts the DM Session")
 async def _start(ctx):
     await ctx.message.delete()
     global start_sawtar
     start_sawtar = True
-    msg = f"Started the sawtar for {len(userids)} users"
+    msg = f"Started the DM for {len(userids)} users"
     await ctx.send(msg, delete_after=60)
 
-@bot.command(name="removeall", aliases=['rall'])
+@bot.command(name="removeall", aliases=['rall'], description="Removes all users from the DM Session")
 async def _removeall(ctx):
     await ctx.message.delete()
     userids.clear()
@@ -66,12 +73,12 @@ async def _removeall(ctx):
     await ctx.send(msg, delete_after=60)
     
 
-@bot.command(name="stop")
+@bot.command(name="stop", description="Stops the DM Session")
 async def _stop(ctx):
     await ctx.message.delete()
     global start_sawtar
     start_sawtar = False
-    msg = f"Stopped the sawtar session for {len(userids)} users"
+    msg = f"Stopped the DM session for {len(userids)} users"
     await ctx.send(msg, delete_after=60)
 
 @bot.event
@@ -111,6 +118,3 @@ async def on_message(message):
 
 
 bot.run(token, bot=False)
-
-
-
