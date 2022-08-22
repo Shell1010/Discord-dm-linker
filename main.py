@@ -4,7 +4,11 @@ from discord.ext import commands
 
 
 bot = commands.Bot(command_prefix="o.", self_bot=True)
-token = "token here"
+token = "OTE4NTAyOTY5NjU2MzQ0NjM3.GBC0Gv.fpQbasS1hATDByPIMQNKcC5bT00xg4oqgDN-jA"
+userids = []
+global start_sawtar
+start_sawtar = False
+
     
 @bot.event
 async def on_ready():
