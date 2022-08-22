@@ -4,7 +4,7 @@ from discord.ext import commands
 
 
 bot = commands.Bot(command_prefix="o.", self_bot=True)
-token = "OTE4NTAyOTY5NjU2MzQ0NjM3.GBC0Gv.fpQbasS1hATDByPIMQNKcC5bT00xg4oqgDN-jA"
+token = "token here"
 userids = []
 global start_sawtar
 start_sawtar = False
@@ -12,7 +12,7 @@ start_sawtar = False
     
 @bot.event
 async def on_ready():
-    print(f"Sawtar ready: Connected as {bot.user.name}#{bot.user.discriminator}")
+    print(f"Linker ready: Connected as {bot.user.name}#{bot.user.discriminator}")
 
 @bot.command(name="add")
 async def _add(ctx, user: discord.User = None):
@@ -22,7 +22,7 @@ async def _add(ctx, user: discord.User = None):
     id = user.id
     userids.append(id)
     user = await bot.fetch_user(id)
-    msg = f"Added {user.name}#{user.discriminator} to the sawtar session"
+    msg = f"Added {user.name}#{user.discriminator} to the DM session"
     await ctx.send(msg, delete_after=60)
 
 @bot.command(name="remove")
@@ -34,7 +34,7 @@ async def _remove(ctx, user: discord.User = None):
     if id in userids:
         userids.remove(id)
     user = await bot.fetch_user(id)
-    msg = f"Removed {user.name}#{user.discriminator} from the sawtar session"
+    msg = f"Removed {user.name}#{user.discriminator} from the DM session"
     await ctx.send(msg, delete_after=60)
 
     
@@ -43,7 +43,7 @@ async def _remove(ctx, user: discord.User = None):
 async def _list(ctx):
     await ctx.message.delete()
     em = discord.Embed()
-    msg = f"```\n{bot.user.name}'s Sawtar list:"
+    msg = f"```\n{bot.user.name}'s DM list:"
     for i in userids:
         user = await bot.fetch_user(i)
         msg += f"{user.name}#{user.discriminator}\n"
@@ -55,7 +55,7 @@ async def _start(ctx):
     await ctx.message.delete()
     global start_sawtar
     start_sawtar = True
-    msg = f"Started the sawtar for {len(userids)} users"
+    msg = f"Started the DM for {len(userids)} users"
     await ctx.send(msg, delete_after=60)
 
 @bot.command(name="removeall", aliases=['rall'])
@@ -71,7 +71,7 @@ async def _stop(ctx):
     await ctx.message.delete()
     global start_sawtar
     start_sawtar = False
-    msg = f"Stopped the sawtar session for {len(userids)} users"
+    msg = f"Stopped the DM session for {len(userids)} users"
     await ctx.send(msg, delete_after=60)
 
 @bot.event
