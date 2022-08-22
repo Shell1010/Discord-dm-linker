@@ -3,6 +3,7 @@ from discord.ext import commands
 
 prefix = "o."
 bot = commands.Bot(command_prefix=prefix, self_bot=True, case_insensitive=True, help_command=None)
+
 token = "token here"
 userids = []
 global start_sawtar
