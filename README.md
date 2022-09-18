@@ -8,4 +8,4 @@ Place token in main.py and run the selfbot. Add users with the `add` command, an
 
 
 ## Help & Support
-- My [discord server](https://discord.gg/fuf8t4JWDV)
+- My [discord server](https://discord.gg/qCJwVERPRV)
